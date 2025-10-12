@@ -7,7 +7,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Sequence, TypeAlias
 
-from mastermind.peg import Guess, Feedback
+from mastermind.peg import Feedback, Guess
 
 Turn: TypeAlias = tuple[Guess, Feedback]
 """A turn is a tuple of a guess and feedback."""

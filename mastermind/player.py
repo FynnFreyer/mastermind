@@ -8,12 +8,11 @@ and honesty for generating the feedback.
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC
 from dataclasses import dataclass, field
-from typing import Callable
 
 from mastermind.board import Board, BoardState
-from mastermind.peg import KeyPeg, CodePeg, Guess, Feedback
+from mastermind.peg import CodePeg, Feedback, Guess, KeyPeg
 
 
 @dataclass

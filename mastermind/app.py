@@ -6,7 +6,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from mastermind.board import Board
-from mastermind.peg import Guess, Feedback, KeyPeg
+from mastermind.peg import Feedback, Guess, KeyPeg
 from mastermind.player import CodeBreaker, CodeMaker
 
 
