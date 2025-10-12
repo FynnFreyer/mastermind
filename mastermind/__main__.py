@@ -10,12 +10,11 @@ from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from sys import stderr
 from traceback import format_exception, format_exception_only
-from typing import Any
 
-from __about__ import __version__, __author__, __description__
+from mastermind.__about__ import __version__, __author__, __description__
 from mastermind.app import Mastermind
 from mastermind.board import Board
-from mastermind.player import Player, CodeMaker, CodeBreaker
+from mastermind.player import CodeMaker, CodeBreaker
 
 VERBOSE = False
 SCRIPT_DIR = Path(__file__).parent.resolve()
