@@ -3,13 +3,14 @@ This module contains the Mastermind application.
 """
 from __future__ import annotations
 
-from typing import Callable
+from dataclasses import dataclass
 
 from mastermind.board import Board
 from mastermind.peg import Guess, Feedback, KeyPeg
 from mastermind.player import CodeBreaker, CodeMaker
 
 
+@dataclass
 class Mastermind:
     """This class represents a Mastermind game."""
 
