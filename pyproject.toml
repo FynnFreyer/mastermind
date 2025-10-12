@@ -30,6 +30,7 @@ dev = [
     'autopep8',
     'isort',
     'mypy',
+    'pytest',
     'ruff',
     'uv',
 ]
