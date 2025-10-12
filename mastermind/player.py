@@ -40,7 +40,7 @@ class CodeMaker(Player):
 
     def generate_feedback(self, guess: Guess) -> Feedback:
         feedback = []
-        cp_solution = self.code[:]
+        cp_solution = list(self.code)
         cp_guess = list(guess)
         for i in range(self.board.columns):
             idx = 1 - i
