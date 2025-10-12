@@ -57,4 +57,4 @@ class Board:
         for row in board:
             row_strings.append(" | ".join(row))
         board_string = "\n".join(row_strings)
-        return board_string
+        return board_string + "\n"
