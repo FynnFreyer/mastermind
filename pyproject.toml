@@ -28,6 +28,7 @@ packages = ['mastermind']
 [project.optional-dependencies]
 dev = [
     'autopep8',
+    'isort',
     'mypy',
     'ruff',
     'uv',
