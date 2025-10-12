@@ -31,8 +31,7 @@ class CodeMaker(Player):
     """The code that the CodeMaker came up with."""
 
     def __post_init__(self):
-        if self.code is None:
-            self.code = self.generate_code()
+        self.code = self.generate_code()
 
     def generate_code(self) -> Guess:
         return tuple(CodePeg.random() for _ in range(self.board.columns))
