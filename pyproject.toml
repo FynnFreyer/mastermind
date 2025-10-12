@@ -1,0 +1,62 @@
+[project]
+name = 'mastermind'
+readme = 'README.md'
+requires-python = '>=3.9'
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+]
+dependencies = []
+dynamic = ['version', 'author', 'description']
+
+[build-system]
+requires = ['hatchling']
+build-backend = 'hatchling.build'
+
+[tool.hatch]
+description = { path = 'mastermind/__about__.py' }
+version = { path = 'mastermind/__about__.py' }
+authors = { path = 'mastermind/__about__.py' }
+maintainers = { path = 'mastermind/__about__.py' }
+
+[tool.hatch.build]
+packages = ['mastermind']
+
+
+[project.optional-dependencies]
+dev = [
+    'autopep8',
+    'ruff',
+    'uv',
+]
+
+[project.urls]
+'Repository' = 'https://github.com/FynnFreyer/mastermind'
+'Issues' = 'https://github.com/FynnFreyer/mastermind/issues'
+# TODO: setup github pages and CI
+# 'Docs' = 'https://github.com/FynnFreyer/mastermind'
+
+[project.scripts]
+mastermind = 'mastermind.__main__:main'
+
+# Formatting options
+[tool.autopep8]
+max_line_length = 120
+in-place = true
+recursive = true
+jobs = -1
+
+[tool.isort]
+line_length = 120
+
+# Linting options
+[tool.ruff]
+line-length = 120
+select = ['E', 'F', 'B', 'Q']
+ignore = ['B905']
+show-fixes = true
+
+[tool.ruff.mccabe]
+max-complexity = 10
