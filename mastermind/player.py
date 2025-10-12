@@ -27,7 +27,7 @@ class CodeMaker(Player):
     board: Board
     """The board that the code is being made for."""
 
-    code: Guess | None = None
+    code: Guess = field(init=False)
     """The code that the CodeMaker came up with."""
 
     def __post_init__(self):
