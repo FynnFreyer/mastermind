@@ -91,7 +91,8 @@ def main(argv: list[str] | None = None) -> int:
         args = parse_args(argv)
         return run_game(args)
     except Exception as e:
-        err = format_exception(e) if VERBOSE else format_exception_only(e)
+        err_lines = format_exception(e) if VERBOSE else format_exception_only(e)
+        err = "".join(err_lines)
         print(err, file=stderr)
         return 1
 
