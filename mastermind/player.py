@@ -47,18 +47,25 @@ class RandomHonestCodeMaker(CodeMaker):
 
     def generate_feedback(self, guess: Guess) -> Feedback:
         feedback = []
-        cp_solution = list(self.code)
-        cp_guess = list(guess)
-        for i in range(self.board.columns):
-            idx = 1 - i
-            if guess[idx] == cp_solution[idx]:
-                cp_solution.pop(idx)
-                cp_guess.pop(idx)
-                feedback.append(KeyPeg.WHITE)
-        for peg in cp_guess:
-            if peg in cp_solution:
-                cp_solution.remove(peg)
+
+        # lists to save pegs that don't match exactly
+        non_exact_guess_pegs = []
+        non_exact_solution_pegs = []
+
+        # find exact matches and save rest into lists
+        for guess_peg, solution_peg in zip(guess, self.code):
+            exact_match = guess_peg == solution_peg
+            if exact_match:
                 feedback.append(KeyPeg.RED)
+            else:
+                non_exact_guess_pegs.append(guess_peg)
+                non_exact_solution_pegs.append(solution_peg)
+
+        # find inexact matches from lists of rest pegs
+        for guess_peg in non_exact_guess_pegs:
+            if guess_peg in non_exact_solution_pegs:
+                non_exact_solution_pegs.remove(guess_peg)
+                feedback.append(KeyPeg.WHITE)
         return feedback
 
 
