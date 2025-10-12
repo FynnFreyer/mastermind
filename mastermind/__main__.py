@@ -89,7 +89,7 @@ def main(argv: list[str] | None = None) -> int:
     """
     try:
         args = parse_args(argv)
-        return run_game(args)
+        return run_game(args.rows, args.columns)
     except Exception as e:
         err_lines = format_exception(e) if VERBOSE else format_exception_only(e)
         err = "".join(err_lines)
