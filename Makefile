@@ -19,7 +19,7 @@ ifeq (,$(shell command -v uv))
 endif
 
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-export PYTHONPATH := $(MAKEFILE_DIR)/src
+export PYTHONPATH := $(MAKEFILE_DIR)
 
 ##
 ##
@@ -86,7 +86,7 @@ update: requirements-min update-dev ## Regenerate both requirements.txt and requ
 logs:
 	mkdir -p logs
 
-CHECK_DIRS = src/
+CHECK_DIRS = mastermind/
 
 .PHONY: format lint lint-quick test type-check chores
 format: logs  ## Do code formatting with isort and autopep8.
