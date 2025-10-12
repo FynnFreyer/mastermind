@@ -8,21 +8,30 @@ and honesty for generating the feedback.
 
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
 from mastermind.board import Board, BoardState
 from mastermind.peg import CodePeg, Feedback, Guess, KeyPeg
 
 
-@dataclass
-class Player(ABC):
-    """Interface for a player in a Mastermind game."""
-
-
-@dataclass
-class CodeMaker(Player):
+class CodeMaker(ABC):
     """The player who makes the code."""
+
+    @abstractmethod
+    def generate_code(self) -> Guess:
+        """Generate a code for the board."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def generate_feedback(self, guess: Guess) -> Feedback:
+        """Generate feedback for a guess."""
+        raise NotImplementedError
+
+
+@dataclass
+class RandomHonestCodeMaker(CodeMaker):
+    """A code maker that generates a random code and gives honest feedback."""
 
     board: Board
     """The board that the code is being made for."""
@@ -53,12 +62,21 @@ class CodeMaker(Player):
         return feedback
 
 
-@dataclass
-class CodeBreaker(Player):
+class CodeBreaker(ABC):
     """The player who tries to guess the code."""
+
+    @abstractmethod
+    def generate_guess(self, board_state: BoardState, columns: int) -> Guess:
+        """Generate a guess for the given board state. Number of columns is given in case this is the first guess."""
+        raise NotImplementedError
+
+
+@dataclass
+class RandomCodeBreaker(CodeBreaker):
+    """A code breaker that generates random guesses."""
     memory: dict[tuple[CodePeg, ...], list[KeyPeg]] = field(default_factory=dict)
 
-    def generate_guess(self, board_state: BoardState, columns: int) -> list[CodePeg]:
+    def generate_guess(self, board_state: BoardState, columns: int) -> Guess:
         random = [CodePeg.random() for _ in range(columns)]
         if not self.memory:
             return random
