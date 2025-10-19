@@ -74,7 +74,7 @@ def run_game(rows: int, cols: int) -> int:
     """
     board = Board(rows=rows, columns=cols)
     maker = RandomHonestCodeMaker(board)
-    breaker = RandomCodeBreaker()
+    breaker = RandomCodeBreaker(rows, cols)
     game = Mastermind(board, maker, breaker)
     solved = game.play()
     return int(not solved)

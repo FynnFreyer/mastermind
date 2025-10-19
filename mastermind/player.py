@@ -69,11 +69,18 @@ class RandomHonestCodeMaker(CodeMaker):
         return feedback
 
 
+@dataclass
 class CodeBreaker(ABC):
     """The player who tries to guess the code."""
 
+    rows: int
+    """Number of rows on the board."""
+
+    columns: int
+    """Number of columns on the board."""
+
     @abstractmethod
-    def generate_guess(self, board_state: BoardState, columns: int) -> Guess:
+    def generate_guess(self, board_state: BoardState) -> Guess:
         """Generate a guess for the given board state. Number of columns is given in case this is the first guess."""
         raise NotImplementedError
 
@@ -83,11 +90,11 @@ class RandomCodeBreaker(CodeBreaker):
     """A code breaker that generates random guesses."""
     memory: dict[tuple[CodePeg, ...], list[KeyPeg]] = field(default_factory=dict)
 
-    def generate_guess(self, board_state: BoardState, columns: int) -> Guess:
-        random = [CodePeg.random() for _ in range(columns)]
+    def generate_guess(self, board_state: BoardState) -> Guess:
+        random = [CodePeg.random() for _ in range(self.columns)]
         if not self.memory:
             return random
         # TODO: implement non-random strategy
         while random in self.memory:
-            random = [CodePeg.random() for _ in range(columns)]
+            random = [CodePeg.random() for _ in range(self.columns)]
         return random

@@ -20,7 +20,7 @@ class Mastermind:
 
     def guess(self) -> Guess:
         """Have the ``CodeBreaker`` generate a guess."""
-        return self.breaker.generate_guess(self.board.state, self.board.columns)
+        return self.breaker.generate_guess(self.board.state)
 
     def answer(self, guess: Guess) -> Feedback:
         """Have the ``CodeMaker`` generate an answer."""
