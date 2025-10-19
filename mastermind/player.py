@@ -88,7 +88,7 @@ class CodeBreaker(ABC):
 @dataclass
 class RandomCodeBreaker(CodeBreaker):
     """A code breaker that generates random guesses."""
-    memory: dict[tuple[CodePeg, ...], list[KeyPeg]] = field(default_factory=dict)
+    memory: dict[Guess, Feedback] = field(default_factory=dict)
 
     @property
     def random_guess(self) -> Guess:
