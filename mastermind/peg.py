@@ -14,6 +14,8 @@ class CodePeg(StrEnum):
     YELLOW = "yellow"
     BLUE = "blue"
     WHITE = "white"
+    """Code pegs are used to represent the code and guesses."""
+
 
     @classmethod
     def random(cls) -> "CodePeg":
@@ -26,6 +28,11 @@ class CodePeg(StrEnum):
 class KeyPeg(StrEnum):
     RED = "red"
     WHITE = "white"
+    """Key pegs are used to represent feedback for a guess."""
+
+    """Correct color and position."""
+
+    """Correct color, wrong position."""
 
 
 Guess: TypeAlias = Sequence[CodePeg]
