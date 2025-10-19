@@ -14,7 +14,7 @@ from traceback import format_exception, format_exception_only
 from mastermind.__about__ import __author__, __description__, __version__
 from mastermind.app import Mastermind
 from mastermind.board import Board
-from mastermind.player import RandomCodeBreaker, RandomHonestCodeMaker
+from mastermind.player import RandomHonestCodeMaker, SmartCodeBreaker
 
 VERBOSE = False
 SCRIPT_DIR = Path(__file__).parent.resolve()
@@ -74,7 +74,7 @@ def run_game(rows: int, cols: int) -> int:
     """
     board = Board(rows=rows, columns=cols)
     maker = RandomHonestCodeMaker(board)
-    breaker = RandomCodeBreaker(rows, cols)
+    breaker = SmartCodeBreaker(rows, cols)
     game = Mastermind(board, maker, breaker)
     solved = game.play()
     return int(not solved)
