@@ -88,4 +88,6 @@ class RandomCodeBreaker(CodeBreaker):
         if not self.memory:
             return random
         # TODO: implement non-random strategy
+        while random in self.memory:
+            random = [CodePeg.random() for _ in range(columns)]
         return random
