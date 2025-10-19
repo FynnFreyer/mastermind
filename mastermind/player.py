@@ -90,11 +90,15 @@ class RandomCodeBreaker(CodeBreaker):
     """A code breaker that generates random guesses."""
     memory: dict[tuple[CodePeg, ...], list[KeyPeg]] = field(default_factory=dict)
 
+    @property
+    def random_guess(self) -> Guess:
+        return [CodePeg.random() for _ in range(self.columns)]
+
     def generate_guess(self, board_state: BoardState) -> Guess:
-        random = [CodePeg.random() for _ in range(self.columns)]
+        random = self.random_guess
         if not self.memory:
             return random
         # TODO: implement non-random strategy
         while random in self.memory:
-            random = [CodePeg.random() for _ in range(self.columns)]
+            random = self.random_guess
         return random
