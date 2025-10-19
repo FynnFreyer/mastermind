@@ -10,6 +10,8 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+from itertools import product
+from random import choice
 
 from mastermind.board import Board, BoardState
 from mastermind.peg import CodePeg, Feedback, Guess, KeyPeg
@@ -104,3 +106,42 @@ class RandomCodeBreaker(CodeBreaker):
         while (random := self.random_guess) in self.memory:
             pass  # regenerate until a unique guess occurs
         return random
+
+
+@dataclass
+class SmartCodeBreaker(CodeBreaker):
+    """A code breaker keeping track of possible codes."""
+
+    all_codes: list[Guess] = field(init=False)
+    """A list of all codes."""
+
+    possible_codes: list[Guess] = field(init=False)
+    """A list of all codes still possible with the current feedback."""
+
+    def __post_init__(self):
+        self.all_codes = list(product(CodePeg, repeat=self.columns))
+        self.possible_codes = list(self.all_codes)
+
+    def dismiss_impossible_codes(self, guess: Guess, feedback: Feedback) -> None:
+        possible_codes = []
+        for code in self.possible_codes:
+            hypothetical_feedback = sorted(honest_feedback(code, guess))
+            if hypothetical_feedback == sorted(feedback):
+                possible_codes.append(code)
+        self.possible_codes = possible_codes
+
+    def generate_guess(self, board_state: BoardState) -> Guess:
+        if not board_state:
+            guess = []
+            for i in range(self.columns):
+                halfway = i < self.columns // 2
+                color_code = int(not halfway)
+                guess.append(CodePeg(color_code))
+            return tuple(guess)
+
+        # update possible codes if we've made a prior guess
+        guess, feedback = board_state[-1]
+        self.dismiss_impossible_codes(guess, feedback)
+
+        # TODO: implement min-maxing for Knuth's strategy
+        return choice(self.possible_codes)
