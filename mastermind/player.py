@@ -92,13 +92,10 @@ class RandomCodeBreaker(CodeBreaker):
 
     @property
     def random_guess(self) -> Guess:
-        return [CodePeg.random() for _ in range(self.columns)]
+        return tuple(CodePeg.random() for _ in range(self.columns))
 
     def generate_guess(self, board_state: BoardState) -> Guess:
-        random = self.random_guess
-        if not self.memory:
-            return random
         # TODO: implement non-random strategy
-        while random in self.memory:
-            random = self.random_guess
+        while (random := self.random_guess) in self.memory:
+            pass  # regenerate until a unique guess occurs
         return random
