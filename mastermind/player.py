@@ -29,6 +29,31 @@ class CodeMaker(ABC):
         raise NotImplementedError
 
 
+def honest_feedback(code: Guess, guess: Guess) -> Feedback:
+    """Generate honest feedback for a guess."""
+    feedback = []
+
+    # lists to save pegs that don't match exactly
+    non_exact_guess_pegs = []
+    non_exact_solution_pegs = []
+
+    # find exact matches and save rest into lists
+    for guess_peg, solution_peg in zip(guess, code):
+        exact_match = guess_peg == solution_peg
+        if exact_match:
+            feedback.append(KeyPeg.RED)
+        else:
+            non_exact_guess_pegs.append(guess_peg)
+            non_exact_solution_pegs.append(solution_peg)
+
+    # find inexact matches from lists of rest pegs
+    for guess_peg in non_exact_guess_pegs:
+        if guess_peg in non_exact_solution_pegs:
+            non_exact_solution_pegs.remove(guess_peg)
+            feedback.append(KeyPeg.WHITE)
+    return feedback
+
+
 @dataclass
 class RandomHonestCodeMaker(CodeMaker):
     """A code maker that generates a random code and gives honest feedback."""
@@ -46,27 +71,7 @@ class RandomHonestCodeMaker(CodeMaker):
         return tuple(CodePeg.random() for _ in range(self.board.columns))
 
     def generate_feedback(self, guess: Guess) -> Feedback:
-        feedback = []
-
-        # lists to save pegs that don't match exactly
-        non_exact_guess_pegs = []
-        non_exact_solution_pegs = []
-
-        # find exact matches and save rest into lists
-        for guess_peg, solution_peg in zip(guess, self.code):
-            exact_match = guess_peg == solution_peg
-            if exact_match:
-                feedback.append(KeyPeg.RED)
-            else:
-                non_exact_guess_pegs.append(guess_peg)
-                non_exact_solution_pegs.append(solution_peg)
-
-        # find inexact matches from lists of rest pegs
-        for guess_peg in non_exact_guess_pegs:
-            if guess_peg in non_exact_solution_pegs:
-                non_exact_solution_pegs.remove(guess_peg)
-                feedback.append(KeyPeg.WHITE)
-        return feedback
+        return honest_feedback(self.code, guess)
 
 
 @dataclass
